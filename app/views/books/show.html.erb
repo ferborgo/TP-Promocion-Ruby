@@ -1,0 +1,69 @@
+<p id="notice"><%= notice %></p>
+<%= link_to 'Back', :back %>
+<h1><%= @book.title %></h1>
+<h2>By <%= @book.author.first_name %> <%= @book.author.last_name %></h2>
+
+<%  if @book.genre %>
+<h5> <%= @book.genre.name %> </h5>
+<% else %>
+<h5> Genre not defined</h5>
+<% end %>
+
+<% if ! @average.nan? %>
+Star average: <%= @average %> / 5
+<% end %>
+
+<br>
+<%= @book.pages %> pages
+<br><br>
+<% if can? :edit, Book %>
+  <%= link_to 'Edit', edit_book_path(@book) %>
+<% end %>
+<h3>Opinions:</h3>
+<% if @book.opinions.count == 0 %>
+  <p>Sorry! There are no opinions.. at least for now! Please tell us what you think about this book.</p>
+<% else %>
+  <ul>
+    <% @book.opinions.each do |opinion| %>
+      <li>
+        <i> '<%= opinion.text %>'</i> by <b><%= opinion.user.email %></b>
+        <br>
+        <%= opinion.stars %>/5 stars
+        <br>
+
+        <p><%= opinion.likes.count %> <%= (opinion.likes.count) == 1 ? 'Like' : 'Likes'%></p>
+
+        <% pre_like = opinion.likes.find { |like| like.user_id == current_user.id} %>
+        <% if pre_like %>
+          <%= button_to 'Unlike', opinion_like_path(opinion, pre_like), method: :delete %>
+        <% else %>
+          <%= button_to 'Like', opinion_likes_path(opinion), method: :post %>
+        <% end %>
+
+
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<br>
+
+<% if (has_commented?) %>
+  You cannot leave your opinion again
+<% else %>
+  Please leave your opinion!
+
+  <% form_with do%>
+    <div class="form-group">
+      <textarea name="name" rows="6" cols="40" class="form-control"></textarea>
+      <select class="form-control" name="stars">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <button type="submit" class="btn btn-primary" name="button">Save</button>
+    </div>
+  <% end %>
+<% end %>

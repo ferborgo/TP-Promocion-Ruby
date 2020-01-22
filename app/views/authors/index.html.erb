@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+<h2 class="text-center">Authors</h2>
+<hr>
+
+<% if can? :create, @author %>
+<button class="btn btn-success">
+    <%= link_to 'New Author', new_author_path %>
+</button>
+  <% end %>
+
+<br><br>
+<div class="row">
+  <ul class="list-group" style="width: 100%;">
+    <li class="list-group-item row d-flex text-center">
+      <div class="col-3 text-info">Nombre</div>
+      <div class="col-3 text-info">Apellido</div>
+      <div class="col-2  text-info">Cantidad de libros</div>
+      <div class="col-1 text-info"></div>
+      <div class="col-1 text-info"></div>
+      <div class="col-1 text-info"></div>
+      <div class="col-1 text-info"></div>
+    </li>
+    <% @authors.each do |author| %>
+    <li class="list-group-item row d-flex text-center">
+      <div class="col-3"> <%= author.first_name %> </div>
+      <div class="col-3"><%= author.last_name %> </div>
+      <div class="col-2"><%= author.books.count %> </div>
+      <div class="col-1 text-info"></div>
+      <div class="col-1">
+        <button class="btn btn-success">
+          <% if can? :read, author %>
+            <%= link_to 'Show', author %>
+          <% end %>
+        </button>
+      </div>
+      <div class="col-1">
+        <button class="btn btn-warning">
+          <% if can? :update, author %>
+            <%= link_to 'Edit', edit_author_path(author) %>
+          <% end %>
+        </button>
+      </div>
+      <div class="col-1">
+        <button class="btn btn-danger">
+          <% if can? :destroy, author %>
+            <%= link_to 'Destroy', author, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </button>
+      </div>
+    </li>
+    <% end %>
+  </ul>
+</div>
+
+<br>

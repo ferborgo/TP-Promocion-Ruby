@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1> <%= @author.first_name%> <%= @author.last_name%> </h1>
+
+<p> List of books: </p>
+
+<ul class="list-group list-group-flush"">
+  <% @author.books.each do |book| %>
+    <li class="list-group-item">
+      <span>
+        <h4><%= book.title %>
+          <% if ! book.published_at.nil?%>
+          , published at <%= book.published_at.strftime('%Y') %>
+          <% end %>
+        </h4>
+      </span>
+      <p>
+        <% if (current_user.books.include?(book)) %>
+          <%= link_to 'Remove from Booklist', remove_book_to_booklist_path(book) %>
+        <% else %>
+          <%= link_to 'Add to Booklist', add_book_to_booklist_path(book) %>
+        <% end %>
+        |
+        <%= link_to 'Show', book %>
+      </p>
+
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Edit', edit_author_path(@author) %> |
+<%= link_to 'Back', authors_path %>

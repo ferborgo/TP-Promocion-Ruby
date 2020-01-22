@@ -1,0 +1,60 @@
+<p id="notice"><%= notice %></p>
+<%= link_to 'Back', :back %>
+
+<% if  @books.first.user == current_user %>
+  <h1 class="text-center">Personal Booklist</h1>
+<% else %>
+  <h1 class="text-center"> <%= @books.first.user.first_name %> Booklist</h1>
+<% end %>
+
+<div class="row">
+  <% @books.each do |book| %>
+    <div class="col-4 mb-3">
+      <div class="card text-center" style="width: 18rem;">
+        <img class="card-img-top">
+        <div class="card-body">
+
+          <%= link_to(book.book) do %>
+            <h5 class="card-title"><%= book.book.title %></h5>
+          <% end %>
+          <p class="card-text">written by <%= book.book.author.first_name %> <%= book.book.author.last_name %></p>
+          <% if ! book.status.nil?%>
+            <p class="card-text"> Status: <b><%= book.status %></b> </p>
+          <% else %>
+            <p class="card-text"> No status yet </p>
+          <% end %>
+          <p class="card-text"> Added <%= book.created_at.strftime("%m/%d/%Y") %></p>
+          <p class="card-text"> Last update <%= book.updated_at.strftime("%m/%d/%Y") %></p>
+
+
+          <% if current_user == book.user%>
+          <p class="card-text"> Change it to: </p>
+          <form class="" action="/booklist/update_status" method="post">
+              <%= csrf_meta_tags %>
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+              <select class="" name="status_id">
+                <% @statuses.each do |s| %>
+                  <% if book.status != s.first %>
+                    <option value="<%= s.first %>">
+                      <%= s.first %>
+                    </option>
+                  <% end %>
+                <% end %>
+              </select>
+              <input type="hidden" name="id" value="<%= book.book.id %>">
+              <button class="btn btn-warning" type="submit" >
+                <i class="material-icons">update</i>
+              </button>
+          </form
+          <br>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="text-center">
+  <%= paginate @books %>
+</div>

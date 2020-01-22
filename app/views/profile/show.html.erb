@@ -1,0 +1,44 @@
+<% if current_user === @user %>
+  <h1>Personal Profile</h1>
+
+  <button class="btn btn-warning">
+    Edit profile
+  </button>
+
+<% else %>
+  <h1> <%= @user.first_name %> <%= @user.last_name %> </h1>
+
+  <%= link_to('Booklist', booklist_path(@user.id)) %>
+<% end %>
+
+
+<h3>Opinions written</h3>
+
+  <% if ! @opinions.empty? %>
+<div class="list-group">
+  <% @opinions.each do |opinion| %>
+    <div class="list-group-item list-group-item-action">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">
+          <%= link_to(book_path(opinion.book.id)) do %>
+              <%= opinion.book.title %>
+          <% end %>
+          , by
+          <%= link_to(author_path(opinion.book.author.id)) do %>
+            <%= opinion.book.author.first_name %> <%= opinion.book.author.last_name %>
+          <% end %>
+          </h5>
+        <small> <%= opinion.created_at.strftime("%F a las %H:%M") %> </small>
+      </div>
+      <p class="mb-1">
+        "<%= opinion.text %>"
+      </p>
+      <small> <%= opinion.stars %>/5 stars </small>
+      <br>
+      <small> <%= opinion.likes.count %> likes </small>
+    </div>
+  <% end %>
+</div>
+<% else %>
+  The user has not made any opinions
+<% end %>
