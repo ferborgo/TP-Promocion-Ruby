@@ -16,4 +16,7 @@ Rails.application.routes.draw do
   post 'booklist/update_status', to: 'booklist#updateStatus', as: 'update_status_booklist'
 
   get '/profile', to: 'profile#index', as:'index_profiles'
+
+  get 'profile/:id/follow', to: 'profile#follow', as: 'follow'
+  get 'profile/:id/unfollow', to: 'profile#unfollow', as: 'unfollow'
 end

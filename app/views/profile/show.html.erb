@@ -1,44 +1,84 @@
 <% if current_user === @user %>
   <h1>Personal Profile</h1>
 
+  <p> Joined on <%= @user.created_at.strftime("%B, %Y") %> </p>
+
   <button class="btn btn-warning">
     Edit profile
   </button>
 
 <% else %>
   <h1> <%= @user.first_name %> <%= @user.last_name %> </h1>
+  <% if @user.following?(current_user) %>
+    <h4>
+      <span class="badge badge-secondary">
+      This user is following you
+      </span>
+    </h4>
+  <% end %>
+
+  <h4>
+    <% if current_user.following?(@user) %>
+        <span class="badge badge-danger">
+      <%= link_to('unfollow', unfollow_path(@user.id)) %>
+    <% else %>
+        <span class="badge badge-success">
+      <%= link_to('follow', follow_path(@user.id)) %>
+    <% end %>
+    </span>
+  </h4>
+
+  <p> Joined on <%= @user.created_at.strftime("%B, %Y") %> </p>
 
   <%= link_to('Booklist', booklist_path(@user.id)) %>
+
 <% end %>
 
+<p>
+  <%= @user.followers_count %> followers
+  |
+  <%= @user.follow_count %> following
+</p>
 
-<h3>Opinions written</h3>
+<div class="container">
+  <div class="row">
+    <div class="col-5">
+      <h3>Opinions written</h3>
 
-  <% if ! @opinions.empty? %>
-<div class="list-group">
-  <% @opinions.each do |opinion| %>
-    <div class="list-group-item list-group-item-action">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">
-          <%= link_to(book_path(opinion.book.id)) do %>
-              <%= opinion.book.title %>
-          <% end %>
-          , by
-          <%= link_to(author_path(opinion.book.author.id)) do %>
-            <%= opinion.book.author.first_name %> <%= opinion.book.author.last_name %>
-          <% end %>
-          </h5>
-        <small> <%= opinion.created_at.strftime("%F a las %H:%M") %> </small>
+        <% if ! @opinions.empty? %>
+      <div class="list-group">
+        <% @opinions.each do |opinion| %>
+          <div class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">
+                <%= link_to(book_path(opinion.book.id)) do %>
+                    <%= opinion.book.title %>
+                <% end %>
+                , by
+                <%= link_to(author_path(opinion.book.author.id)) do %>
+                  <%= opinion.book.author.first_name %> <%= opinion.book.author.last_name %>
+                <% end %>
+                </h5>
+              <small> <%= opinion.created_at.strftime("%B %d of %Y, at %H:%M") %> </small>
+            </div>
+            <p class="mb-1">
+              "<%= opinion.text %>"
+            </p>
+            <small> <%= opinion.stars %>/5 stars </small>
+            <br>
+            <small> <%= opinion.likes.count %> likes </small>
+          </div>
+        <% end %>
       </div>
-      <p class="mb-1">
-        "<%= opinion.text %>"
-      </p>
-      <small> <%= opinion.stars %>/5 stars </small>
-      <br>
-      <small> <%= opinion.likes.count %> likes </small>
+      <% else %>
+        The user has not made any opinions
+      <% end %>
     </div>
-  <% end %>
+    <div class="col-2"></div>
+    <div class="col-5">
+      <h3>Recommendations published</h3>
+    </div>
+  </div>
 </div>
-<% else %>
-  The user has not made any opinions
-<% end %>
+<br>
+<br>

@@ -15,6 +15,18 @@ class ProfileController < ApplicationController
     end
   end
 
+  def follow
+    @user = User.find(params[:id])
+    current_user.follow(@user)
+    redirect_to show_profile_path(id: @user.id)
+  end
+
+  def unfollow
+    @user = User.find(params[:id])
+    current_user.stop_following(@user)
+    redirect_to show_profile_path(id: @user.id)
+  end
+
   private
   def set_user
     @user = User.find(params[:id])

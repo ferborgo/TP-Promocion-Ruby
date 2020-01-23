@@ -23,7 +23,7 @@
           <% else %>
             <p class="card-text"> No status yet </p>
           <% end %>
-          <p class="card-text"> Added <%= book.created_at.strftime("%m/%d/%Y") %></p>
+          <p class="card-text"> Added on <%= book.created_at.strftime("%B %d, %Y") %></p>
           <p class="card-text"> Last update <%= book.updated_at.strftime("%m/%d/%Y") %></p>
 
 
