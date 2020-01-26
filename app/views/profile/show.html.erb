@@ -57,11 +57,11 @@
 <% end %>
 <br>
 
-<p>
-  <%= @user.followers_count %> followers
+<div>
+  <span class="badge badge-primary"> <%= @user.followers_count %> followers </span>
   |
-  <%= @user.follow_count %> following
-</p>
+  <span class="badge badge-primary"> <%= @user.follow_count %> following </span>
+</div>
 
 <div class="container">
   <div class="row">
