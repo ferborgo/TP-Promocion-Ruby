@@ -2,6 +2,8 @@
 
 <% if ! notification.target.nil? %>
   <%= link_to("#{notification.target.book.title}", main_app.book_path(notification.target.book.id)) %>
+
+  by <%= link_to("#{notification.target.book.author.first_name} #{notification.target.book.author.last_name}", main_app.author_path(notification.target.book.author.id)) %>
   <br>
   <% if ! notification.target.text.empty? %>
     "<%= notification.target.text %>"

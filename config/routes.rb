@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     resources :likes
   end
 
+  post '/opinions/:id/delete', to: 'opinions#destroy', as: 'delete_opinion'
+
   get '/profile/:id', to: 'profile#show', as:'show_profile'
   post 'booklist/update_status', to: 'booklist#updateStatus', as: 'update_status_booklist'
 

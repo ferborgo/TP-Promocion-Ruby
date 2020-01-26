@@ -50,10 +50,17 @@ class OpinionsController < ApplicationController
   # DELETE /opinions/1
   # DELETE /opinions/1.json
   def destroy
-    @opinion.destroy
-    respond_to do |format|
-      format.html { redirect_to opinions_url, notice: 'Opinion was successfully destroyed.' }
-      format.json { head :no_content }
+    if @opinion.user === current_user
+      @opinion.destroy
+      respond_to do |format|
+        format.html { redirect_to book_path(@opinion.book.id), notice: 'Opinion was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to opinions_url, error: 'Only owner of the opinion can destroy it' }
+        format.json { head :no_content }
+      end
     end
   end
 
