@@ -1,8 +1,16 @@
+<% if @user.is_public || @user === current_user %>
 <h1> <%= @user.first_name %> <%= @user.last_name %> </h1>
 <% if current_user === @user %>
   <h4>Personal Profile</h4>
 
   <p> Joined on <%= @user.created_at.strftime("%B, %Y") %> </p>
+
+  <% if(current_user.is_public) %>
+    <span class="badge badge-secondary"> PUBLIC </span>
+  <% else %>
+    <span class="badge badge-secondary"> PRIVATE </span>
+  <% end %>
+  <br><br>
 
   <button class="btn btn-warning">
     Edit profile
@@ -142,3 +150,10 @@
 </div>
 <br>
 <br>
+
+<% else %>
+  <h2 class="text-center"> This account is private</h2>
+  <h5 class="text-center"> This user is not allowed to leave opinions or to recommend books. Also, other users
+    cannot see the personal info of the account.
+  </h5>
+<% end %>

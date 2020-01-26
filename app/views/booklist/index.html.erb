@@ -1,3 +1,4 @@
+<% if @user === current_user || @user.is_public%>
 <p id="notice"><%= notice %></p>
 <%= link_to 'Back', :back %>
 
@@ -62,3 +63,7 @@
 <div class="text-center">
   <%= paginate @books %>
 </div>
+
+<% else %>
+  <h2 class="text-center"> This Booklist belongs to a private user </h2>
+<% end %>

@@ -1,9 +1,9 @@
 class ProfileController < ApplicationController
   before_action :set_user, only: [:show]
-
+  before_action :authenticate_user!
   def index
     email = params[:email]
-    @users = User.where("email LIKE :q", q:"%#{email}%")
+    @users = User.where(is_public: true).where("email LIKE :q", q:"%#{email}%")
     if (@users.count == 1)
       @user = @users.first
       redirect_to show_profile_path(@user.id)
