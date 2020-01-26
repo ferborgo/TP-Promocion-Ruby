@@ -1,5 +1,6 @@
+<h1> <%= @user.first_name %> <%= @user.last_name %> </h1>
 <% if current_user === @user %>
-  <h1>Personal Profile</h1>
+  <h4>Personal Profile</h4>
 
   <p> Joined on <%= @user.created_at.strftime("%B, %Y") %> </p>
 
@@ -8,7 +9,6 @@
   </button>
 
 <% else %>
-  <h1> <%= @user.first_name %> <%= @user.last_name %> </h1>
   <% if @user.following?(current_user) %>
     <h4>
       <span class="badge badge-secondary">
@@ -34,6 +34,21 @@
 
 <% end %>
 
+<br>
+<% if ! @user.opinions.empty? %>
+  <span class="badge badge-success">
+    <%= @user.opinions.count  %> opinions
+  </span>
+<% end %>
+<br>
+
+<% if ! @user.recommendations.empty? %>
+  <span class="badge badge-success">
+    <%= @user.recommendations.count  %> recommendations
+  </span>
+<% end %>
+<br>
+
 <p>
   <%= @user.followers_count %> followers
   |
@@ -42,11 +57,11 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-5">
+    <div class="col-6 divider">
       <h3>Opinions written</h3>
 
         <% if ! @opinions.empty? %>
-      <div class="list-group">
+        <div class="list-group">
         <% @opinions.each do |opinion| %>
           <div class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
@@ -64,9 +79,21 @@
             <p class="mb-1">
               "<%= opinion.text %>"
             </p>
-            <small> <%= opinion.stars %>/5 stars </small>
+            <small>
+              <% for i in 1..opinion.stars do %>
+                <li class="material-icons">star</li>
+              <% end %>
+              <% 5.downto(opinion.stars + 1) do %>
+                <span class="material-icons">star_border</span>
+              <% end %>
+            </small>
             <br>
             <small> <%= opinion.likes.count %> likes </small>
+          </div>
+        <% end %>
+        <% if ! @opinions.empty? %>
+          <div class="text-center">
+            <%= paginate @opinions %>
           </div>
         <% end %>
       </div>
@@ -74,9 +101,42 @@
         The user has not made any opinions
       <% end %>
     </div>
-    <div class="col-2"></div>
-    <div class="col-5">
-      <h3>Recommendations published</h3>
+    <div class="col-6">
+      <h3>Recommendations made</h3>
+        <% if ! @recommendations.empty? %>
+        <div class="list-group">
+        <% @recommendations.each do |recommendation| %>
+          <div class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">
+                <%= link_to(book_path(recommendation.book.id)) do %>
+                    <%= recommendation.book.title %>
+                <% end %>
+                , by
+                <%= link_to(author_path(recommendation.book.author.id)) do %>
+                  <%= recommendation.book.author.first_name %> <%= recommendation.book.author.last_name %>
+                <% end %>
+                </h5>
+              <small> <%= recommendation.created_at.strftime("%B %d of %Y, at %H:%M") %> </small>
+            </div>
+            <% if ! recommendation.text.empty?%>
+              <p class="mb-1">
+                "<%= recommendation.text %>"
+              </p>
+            <% end %>
+            <% if current_user === @user %>
+              <small>
+                <%= link_to(delete_recommendation_path(recommendation.id), method: 'POST', local:true) do %>
+                  <span class="material-icons">delete</span>
+                <% end %>
+              </small>
+            <% end %>
+          </div>
+        <% end %>
+        </div>
+        <% else %>
+        The user has not made any recommendations
+        <% end %>
     </div>
   </div>
 </div>

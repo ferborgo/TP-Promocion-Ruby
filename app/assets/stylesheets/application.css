@@ -16,7 +16,8 @@
 
 //= require material_icons
 
-html, body {
+body {
+  font-style: verdana;
   background-color: #eadfdf66
   a { color: inherit; }
 }
@@ -32,3 +33,5 @@ html, body {
 nav-item {
   margin-left: 10px;
 }
+
+$color-nice-blue: #1c4865;

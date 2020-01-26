@@ -9,9 +9,34 @@
 <h5> Genre not defined</h5>
 <% end %>
 
-<% if ! @average.nan? %>
-Star average: <%= @average %> / 5
+<% if (current_user.books.include?(@book)) %>
+  <%= link_to 'Remove from Booklist', remove_book_to_booklist_path(@book) %>
+<% else %>
+  <%= link_to 'Add to Booklist', add_book_to_booklist_path(@book) %>
 <% end %>
+<br>
+<% if ! @average.nan? %>
+ <%= @average %> / <small>5</small> <li class="material-icons">star</li>
+<% end %>
+<br>
+
+<!-- Recommendations -->
+<% if @have_recommended %>
+  <h5><span class="badge badge-success">You have recommended this book</span></h5>
+<% else %>
+  <h5 class="recommendationButton" onclick="openForm()"><span class="badge badge-primary">Would you recommend this book?</span></h5>
+  <%= form_with(url:'/recommendation', method: 'POST', local: true, id:'recommendationForm') do |form|%>
+    <div class="form-group">
+      <%= label_tag(:text, "Text(optional):") %>
+      <input type="hidden" name="book_id" value="<%= @book.id %>">
+      <%= text_area_tag(:text, '', class: 'form-control', rows: 3) %>
+      <%= form.submit(class:'btn btn-primary') %>
+    </div>
+  <% end %>
+<% end %>
+
+<span class="badge badge-secondary"><%= @count_recommendations %></span> people have recommended this book
+<!-- End Recommendations -->
 
 <br>
 <%= @book.pages %> pages
@@ -23,23 +48,40 @@ Star average: <%= @average %> / 5
 <% if @book.opinions.count == 0 %>
   <p>Sorry! There are no opinions.. at least for now! Please tell us what you think about this book.</p>
 <% else %>
-  <ul>
+  <ul class="list-group">
     <% @book.opinions.each do |opinion| %>
-      <li>
-        <i> '<%= opinion.text %>'</i> by <b><%= opinion.user.email %></b>
-        <br>
-        <%= opinion.stars %>/5 stars
-        <br>
+      <li class="list-group-item">
+        <div class="opinion-header">
+          <div class="opinion-text">
+            <i> '<%= opinion.text %>', by <b><%= opinion.user.email %></b></i>
+          </div>
+          <div class="opinion-stars">
+            <% for i in 1..opinion.stars do %>
+              <span class="material-icons">star</span>
+            <% end %>
+            <% 5.downto(opinion.stars + 1) do %>
+              <span class="material-icons">star_border</span>
+            <% end %>
+          </div>
+        </div>
 
-        <p><%= opinion.likes.count %> <%= (opinion.likes.count) == 1 ? 'Like' : 'Likes'%></p>
+        <div class="opinion-header">
 
-        <% pre_like = opinion.likes.find { |like| like.user_id == current_user.id} %>
-        <% if pre_like %>
-          <%= button_to 'Unlike', opinion_like_path(opinion, pre_like), method: :delete %>
-        <% else %>
-          <%= button_to 'Like', opinion_likes_path(opinion), method: :post %>
-        <% end %>
+          <span class="like-container">
+            <%= opinion.likes.count %>
+            <span class="material-icons">favorite</span>
+          </span>
 
+
+          <% if opinion.user != current_user %>
+            <% pre_like = opinion.likes.find { |like| like.user_id == current_user.id} %>
+            <% if pre_like %>
+              <%= button_to 'Unlike', opinion_like_path(opinion, pre_like), method: :delete %>
+            <% else %>
+              <%= button_to 'Like', opinion_likes_path(opinion), method: :post %>
+            <% end %>
+          <% end %>
+        </div>
 
       </li>
     <% end %>
@@ -53,9 +95,12 @@ Star average: <%= @average %> / 5
 <% else %>
   Please leave your opinion!
 
-  <% form_with do%>
+
     <div class="form-group">
-      <textarea name="name" rows="6" cols="40" class="form-control"></textarea>
+    <%= form_with(url: '/opinion', method: 'POST') do %>
+    <input type="hidden" name="user_id" value="<%= current_user.id%>">
+    <input type="hidden" name="book_id" value="<%= @book.id %>">
+      <textarea name="text" rows="6" cols="40" class="form-control"></textarea>
       <select class="form-control" name="stars">
         <option value="1">1</option>
         <option value="2">2</option>
@@ -63,7 +108,26 @@ Star average: <%= @average %> / 5
         <option value="4">4</option>
         <option value="5">5</option>
       </select>
-      <button type="submit" class="btn btn-primary" name="button">Save</button>
+      <button type="submit" class="btn btn-primary" name="button">Save</button
+        <% end %>
     </div>
-  <% end %>
+
 <% end %>
+
+<script type="text/javascript">
+
+  window.onload = function() {
+    var form = document.getElementById("recommendationForm");
+    form.style.display = "none";
+  };
+
+  function openForm() {
+    var form = document.getElementById("recommendationForm");
+    if (form.style.display === "none") {
+      form.style.display = "block";
+    }
+    else {
+      form.style.display = "none";
+    }
+  }
+</script>

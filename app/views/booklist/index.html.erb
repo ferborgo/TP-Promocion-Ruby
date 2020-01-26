@@ -1,12 +1,13 @@
 <p id="notice"><%= notice %></p>
 <%= link_to 'Back', :back %>
 
-<% if  @books.first.user == current_user %>
+<% if  @user == current_user %>
   <h1 class="text-center">Personal Booklist</h1>
 <% else %>
-  <h1 class="text-center"> <%= @books.first.user.first_name %> Booklist</h1>
+  <h1 class="text-center"> <%= @user.first_name %> Booklist</h1>
 <% end %>
 
+<% if ! @books.empty? %>
 <div class="row">
   <% @books.each do |book| %>
     <div class="col-4 mb-3">
@@ -54,6 +55,9 @@
     </div>
   <% end %>
 </div>
+<% else %>
+  No books on Booklist
+<% end %>
 
 <div class="text-center">
   <%= paginate @books %>

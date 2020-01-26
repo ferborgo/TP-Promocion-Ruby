@@ -1,0 +1,19 @@
+.like-container {
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  .material-icons {
+      font-size: 15px;
+  }
+}
+
+
+.opinion-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.recommendationButton {
+  cursor: pointer;
+}

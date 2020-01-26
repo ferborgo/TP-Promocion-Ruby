@@ -10,6 +10,8 @@ class BooksController < ApplicationController
   # GET /books/1
   # GET /books/1.json
   def show
+    @count_recommendations = Recommendation.where(book: @book).count
+    @have_recommended = Recommendation.exists?(book: @book, user: current_user)
     @average = (@book.opinions.sum {|opinion| opinion.stars} / @book.opinions.count.to_f).round(2)
   end
 

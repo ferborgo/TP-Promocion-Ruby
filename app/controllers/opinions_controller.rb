@@ -24,17 +24,13 @@ class OpinionsController < ApplicationController
   # POST /opinions
   # POST /opinions.json
   def create
-    @opinion = Opinion.new(opinion_params)
-
-    respond_to do |format|
-      if @opinion.save
-        format.html { redirect_to @opinion, notice: 'Opinion was successfully created.' }
-        format.json { render :show, status: :created, location: @opinion }
-      else
-        format.html { render :new }
-        format.json { render json: @opinion.errors, status: :unprocessable_entity }
-      end
-    end
+    @opinion = Opinion.new
+    @opinion.text = params[:text]
+    @opinion.stars = params[:stars]
+    @opinion.user = current_user
+    @opinion.book = Book.find(params[:book_id])
+    @opinion.save
+    redirect_to book_path(@opinion.book.id)
   end
 
   # PATCH/PUT /opinions/1
@@ -69,6 +65,6 @@ class OpinionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def opinion_params
-      params.fetch(:opinion, {})
+      params.fetch(:opinion, {}).permit(:text, :stars, :book_id, :user_id)
     end
 end

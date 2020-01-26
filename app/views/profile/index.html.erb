@@ -1,5 +1,9 @@
-Users that matched the query
-
-<% @users.each do |user| %>
-  <%= user.email %>
-<% end %>
+<div class="">
+  <% if @users.empty? %>
+    No results...
+  <% else %>
+    <% @users.each do |user| %>
+      <%= user.email %>
+    <% end %>
+  <% end %>
+</div>

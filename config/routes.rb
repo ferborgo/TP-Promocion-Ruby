@@ -19,4 +19,9 @@ Rails.application.routes.draw do
 
   get 'profile/:id/follow', to: 'profile#follow', as: 'follow'
   get 'profile/:id/unfollow', to: 'profile#unfollow', as: 'unfollow'
+  post 'opinion', to: 'opinions#create'
+
+  # Recommendations
+  post 'recommendation', to: 'recommendation#create'
+  post 'recommendation/delete/:id', to: 'recommendation#delete', as:'delete_recommendation'
 end

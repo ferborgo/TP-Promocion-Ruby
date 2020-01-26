@@ -2,16 +2,19 @@ class ProfileController < ApplicationController
   before_action :set_user, only: [:show]
 
   def index
-    @users = User.where(email: params[:email])
-    respond_to do |format|
-      format.html { render :index }
+    email = params[:email]
+    @users = User.where("email LIKE :q", q:"%#{email}%")
+    if (@users.count == 1)
+      @user = @users.first
+      redirect_to show_profile_path(@user.id)
     end
   end
 
   def show
-    @opinions = Opinion.where(user: @user)
+    @opinions = Opinion.where(user: @user).order('opinions.created_at DESC').page params[:page]
+    @recommendations = Recommendation.where(user: @user).page params[:page]
     respond_to do |format|
-        format.html { render :show }
+      format.html { render :show }
     end
   end
 
@@ -31,7 +34,8 @@ class ProfileController < ApplicationController
   def set_user
     @user = User.find(params[:id])
   end
-  def params_permit
-    params.permit(:email)
+  def user_params
+    # params.fetch(:user, {}).permit(:email)
+    params.require(:user).permit(:email)
   end
 end
