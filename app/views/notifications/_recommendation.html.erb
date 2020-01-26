@@ -1,7 +1,10 @@
 <%= notification.actor.email %> has recommended
 
-<%= link_to("#{notification.target.book.title}", main_app.book_path(notification.target.book.id)) %>
-<br>
-<% if ! notification.target.text.empty? %>
-  "<%= notification.target.text %>"
+<% if ! notification.target.nil? %>
+  <%= link_to("#{notification.target.book.title}", main_app.book_path(notification.target.book.id)) %>
+  <br>
+  <% if ! notification.target.text.empty? %>
+    "<%= notification.target.text %>"
+  <% end %>
+
 <% end %>

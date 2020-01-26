@@ -65,6 +65,10 @@
             <% end %>
           </li>
 
+          <li class="nav-item">
+            Welcome <%= current_user.email %>
+          </li>
+
         <% else %>
           <li class="nav-item">
             <a class="nav-link" href="#">Login</a>

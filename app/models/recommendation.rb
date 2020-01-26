@@ -4,7 +4,7 @@ class Recommendation < ApplicationRecord
 
   paginates_per 3
 
-  after_commit :create_notification
+  after_create :create_notification
 
   def create_notification
     self.user.followers.each do |user|
