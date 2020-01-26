@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  mount Notifications::Engine => "/notifications"
   resources :authors
   root 'booklist#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -20,6 +21,9 @@ Rails.application.routes.draw do
   get 'profile/:id/follow', to: 'profile#follow', as: 'follow'
   get 'profile/:id/unfollow', to: 'profile#unfollow', as: 'unfollow'
   post 'opinion', to: 'opinions#create'
+
+  # Notifications
+  resources :notifications
 
   # Recommendations
   post 'recommendation', to: 'recommendation#create'

@@ -41,31 +41,28 @@
           <% end %>
 
           <li class="nav-item">
-              <%= link_to('Search', authors_path, class: "nav-link") %>
+              <%= link_to('Search', main_app.authors_path, class: "nav-link") %>
           </li>
 
           <li class="nav-item">
-            <%= link_to('Booklist', booklist_path(current_user.id), class: 'nav-link') %>
+            <%= link_to('Booklist', main_app.booklist_path(current_user.id), class: 'nav-link') %>
           </li>
-
-          <!--
-          <li class="nav-item">
-            <%= link_to(booklist_path(current_user.id)) do %>
-               <i class="material-icons">library_books</i>
-              Booklist
-            <% end %>
-          </li>
-          -->
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               My Profile
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <%= link_to('Profile', show_profile_path(current_user.id), class: 'dropdown-item')%>
+              <%= link_to('Profile', main_app.show_profile_path(current_user.id), class: 'dropdown-item')%>
               <div class="dropdown-divider"></div>
-              <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "dropdown-item") %>
+              <%= link_to('Logout', main_app.destroy_user_session_path, method: :delete, class: "dropdown-item") %>
             </div>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to(notifications_path, local:true, class: 'nav-link') do %>
+              Notifications  <span class="badge badge-danger"><%= Notification.unread_count(current_user) %> </span>
+            <% end %>
           </li>
 
         <% else %>

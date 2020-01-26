@@ -8,7 +8,7 @@ class RecommendationController < ApplicationController
       @recommendation.text = params[:text]
     end
     @recommendation.save
-
+    
     redirect_to book_path(params[:book_id])
   end
 

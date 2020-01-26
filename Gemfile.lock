@@ -142,6 +142,9 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
+    notifications (0.6.1)
+      kaminari (>= 0.15)
+      rails (>= 5)
     oauth2 (1.4.2)
       faraday (>= 0.8, < 2.0)
       jwt (>= 1.0, < 3.0)
@@ -262,6 +265,7 @@ DEPENDENCIES
   kaminari
   listen (>= 3.0.5, < 3.2)
   material_icons
+  notifications (~> 0.6.0)
   omniauth-facebook
   puma (~> 3.11)
   rails (~> 5.2.4, >= 5.2.4.1)

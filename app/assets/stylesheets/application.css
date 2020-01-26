@@ -18,7 +18,7 @@
 
 body {
   font-style: verdana;
-  background-color: #eadfdf66
+  background-color: #eadfdf66;
   a { color: inherit; }
 }
 
@@ -27,11 +27,9 @@ body {
 }
 
 .navbar {
-  background-color: #1c4865
+  background-color: #1c4865;
 }
 
 nav-item {
   margin-left: 10px;
 }
-
-$color-nice-blue: #1c4865;
