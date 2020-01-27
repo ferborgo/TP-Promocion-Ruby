@@ -21,7 +21,7 @@
           <% end %>
           <p class="card-text">written by <%= book.book.author.first_name %> <%= book.book.author.last_name %></p>
           <% if ! book.status.nil?%>
-            <p class="card-text"> Status: <b><%= book.status %></b> </p>
+            <p class="card-text"> Status: <b><%= BookUser.pretty_name(book.status) %></b> </p>
           <% else %>
             <p class="card-text"> No status yet </p>
           <% end %>

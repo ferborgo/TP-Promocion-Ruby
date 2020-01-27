@@ -1,6 +1,14 @@
+<% if notification.target.nil? %>
+
+Too late. <%= notification.actor.email %> must have made a mistake because the like is gone.
+
+<% else %>
+
 <%= notification.actor.email %> likes your opinion
 
 "<%= notification.target.opinion.text  %>" on the book
 
 <%= link_to("#{notification.target.opinion.book.title}", main_app.book_path(notification.target.opinion.book.id)) %>
 by <%= link_to("#{notification.target.opinion.book.author.first_name} #{notification.target.opinion.book.author.last_name}", main_app.author_path(notification.target.opinion.book.author.id)) %>
+
+<% end %>
