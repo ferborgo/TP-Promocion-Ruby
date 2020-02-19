@@ -11,7 +11,7 @@ class BookUser < ApplicationRecord
 
   belongs_to :book
   belongs_to :user
-  paginates_per 5
+  paginates_per 9
 
   def self.pretty_name(param)
     BookUser::STATUS_NAMES[param.parameterize.underscore.to_sym]

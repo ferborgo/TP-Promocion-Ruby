@@ -11,6 +11,38 @@
     </div>
   <% end %>
 
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :author %>
+    <%= form.select :author_id do %>
+      <% @authors.each do |author|%>
+        <option value="<%= author.id %>"> <%= author.last_name %></option>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= form.label :genre %>
+    <%= form.select :genre_id do %>
+      <% @genres.each do |genre|%>
+        <option value="<%= genre.id %>"> <%= genre.name %></option>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= form.label :published_at %>
+    <%= form.select :published_at do  %>
+      <% for i in 1900..2020 %>
+        <option value="<%= i %>"> <%= i %> </option>
+      <% end %>
+    <% end %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

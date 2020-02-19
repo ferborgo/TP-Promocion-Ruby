@@ -31,8 +31,9 @@
               Admin Settings
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Authors</a>
-              <a class="dropdown-item" href="#">Books</a>
+              <%= link_to('Authors', main_app.new_author_path) %>
+              <br>
+              <%= link_to('Books', main_app.new_book_path) %>
               <a class="dropdown-item" href="#">Users</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Other Config</a>

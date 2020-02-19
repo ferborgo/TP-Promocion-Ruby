@@ -17,16 +17,21 @@ class BooksController < ApplicationController
 
   # GET /books/new
   def new
+    @authors = Author.all
     @book = Book.new
+    @genres = Genre.all
   end
 
   # GET /books/1/edit
   def edit
+    @authors = Author.all
+    @genres = Genre.all
   end
 
   # POST /books
   # POST /books.json
   def create
+    params.permit!
     @book = Book.new(book_params)
 
     respond_to do |format|
@@ -34,6 +39,10 @@ class BooksController < ApplicationController
         format.html { redirect_to @book, notice: 'Book was successfully created.' }
         format.json { render :show, status: :created, location: @book }
       else
+        @authors = Author.all
+        @book = Book.new
+        @genres = Genre.all
+        logger.debug('ERRORS: ' + @book.errors.to_s)
         format.html { render :new }
         format.json { render json: @book.errors, status: :unprocessable_entity }
       end
@@ -72,7 +81,7 @@ class BooksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
-      params.fetch(:book, {})
+      params.require(:book).permit(:title, :pages, :published_at, :author_id, :genre_id)
     end
 
     def has_commented?
