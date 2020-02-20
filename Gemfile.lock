@@ -1,4 +1,15 @@
 GIT
+  remote: git://github.com/elastic/elasticsearch-rails.git
+  revision: f6d800d9020797b6520885d7bfd277d6bd0975c4
+  branch: master
+  specs:
+    elasticsearch-model (7.0.0)
+      activesupport (> 3)
+      elasticsearch (> 1)
+      hashie
+    elasticsearch-rails (7.0.0)
+
+GIT
   remote: https://github.com/tcocca/acts_as_follower.git
   revision: c5ac7b9601c4af01eb4d9112330b27be4d694ecc
   branch: master
@@ -89,6 +100,14 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    elasticsearch (7.4.0)
+      elasticsearch-api (= 7.4.0)
+      elasticsearch-transport (= 7.4.0)
+    elasticsearch-api (7.4.0)
+      multi_json
+    elasticsearch-transport (7.4.0)
+      faraday
+      multi_json
     erubi (1.9.0)
     execjs (2.7.0)
     faraday (1.0.0)
@@ -260,6 +279,8 @@ DEPENDENCIES
   chromedriver-helper
   coffee-rails (~> 4.2)
   devise
+  elasticsearch-model!
+  elasticsearch-rails!
   figaro
   jbuilder (~> 2.5)
   kaminari

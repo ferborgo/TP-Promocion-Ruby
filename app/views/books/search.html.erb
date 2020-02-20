@@ -1,0 +1,44 @@
+<h1>Elastic search for books</h1>
+
+<%= form_for :search_books, url: search_books_path, method: :get do |form| %>
+  <%= form.text_field :query, value: params[:search_books].presence && params[:search_books][:query] %>
+  <%= form.submit 'Search' %>
+<% end %>
+
+<% unless @books.nil? %>
+  <% if @books.empty? %>
+    <h2>No books found matching your query.</h2>
+  <% else %>
+    <h2>Search results</h2>
+
+    <table style="width: 100%;">
+      <thead>
+         <tr>
+           <th>Title</th>
+           <th>Author</th>
+           <th>Genre</th>
+           <th>Pages</th>
+         </tr>
+      </thead>
+
+      <tbody>
+        <% @books.each do |book| %>
+          <tr>
+            <td>
+              <%= link_to book_path(book.id) do %>
+                <%= book.title %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to author_path(book.author.id) do %>
+                <%= book.author.first_name %> <%= book.author.last_name %>
+              <% end %>
+            </td>
+            <td> <%= book.genre.name ||= 'sin definir' %></td>
+            <td> <%= book.pages ||= 'sin definir' %> </td>
+          </tr>
+        <% end %>
+      <tbody>
+    </table>
+  <% end %>
+<% end %>

@@ -8,7 +8,13 @@ Rails.application.routes.draw do
   get '/booklist/:user_id', to: 'booklist#index', as: 'booklist'
   get '/booklist/add/:id', to: 'booklist#addBook', as: 'add_book_to_booklist'
   get '/booklist/remove/:id', to: 'booklist#removeBook', as: 'remove_book_to_booklist'
-  resources :books
+
+  resources :books do
+    collection do
+      get :search
+    end
+  end
+
   resources :opinions do
     resources :likes
   end
@@ -30,4 +36,7 @@ Rails.application.routes.draw do
   # Recommendations
   post 'recommendation', to: 'recommendation#create'
   post 'recommendation/delete/:id', to: 'recommendation#delete', as:'delete_recommendation'
+
+  # Genres
+  resources :genres
 end

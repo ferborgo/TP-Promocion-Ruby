@@ -73,6 +73,13 @@ class BooksController < ApplicationController
     end
   end
 
+  def search
+    query = params[:search_books].presence && params[:search_books][:query]
+    if query
+      @books = Book.search(query)
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book
