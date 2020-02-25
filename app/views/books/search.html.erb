@@ -1,7 +1,7 @@
-<h1>Elastic search for books</h1>
+<h1 class="text-center">Search for a book</h1>
 
-<%= form_for :search_books, url: search_books_path, method: :get do |form| %>
-  <%= form.text_field :query, value: params[:search_books].presence && params[:search_books][:query] %>
+<%= form_for :search_books, url: search_books_path, html: {class: "search-form"}, method: :get do |form| %>
+  <%= form.text_field :query, value: params[:search_books].presence && params[:search_books][:query], class: "search-input" %>
   <%= form.submit 'Search' %>
 <% end %>
 
@@ -18,6 +18,7 @@
            <th>Author</th>
            <th>Genre</th>
            <th>Pages</th>
+          <th>Booklist</th>
          </tr>
       </thead>
 
@@ -34,11 +35,32 @@
                 <%= book.author.first_name %> <%= book.author.last_name %>
               <% end %>
             </td>
-            <td> <%= book.genre.name ||= 'sin definir' %></td>
+            <td>
+              <% if defined? book.genre %>
+                <% if book.genre.nil? %>
+                  Sin definir
+                <% else %>
+                  <%= book.genre.name %>
+                <% end %>
+              <% else %>
+                Sin definir
+              <% end %>
+
+            </td>
             <td> <%= book.pages ||= 'sin definir' %> </td>
+            <td>
+              <% if (current_user.books.include?(book)) %>
+                <%= link_to 'Remove', remove_book_to_booklist_path(book) %>
+              <% else %>
+                <%= link_to 'Add', add_book_to_booklist_path(book) %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       <tbody>
     </table>
   <% end %>
 <% end %>
+<div class="text-center">
+  <%= paginate @books %>
+</div>

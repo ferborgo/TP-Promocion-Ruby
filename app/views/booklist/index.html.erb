@@ -1,64 +1,63 @@
 <% if @user === current_user || @user.is_public%>
-<p id="notice"><%= notice %></p>
-<%= link_to 'Back', :back %>
+  <p id="notice"><%= notice %></p>
+  <%= link_to 'Back', :back %>
 
-<% if  @user == current_user %>
-  <h1 class="text-center">Personal Booklist</h1>
-<% else %>
-  <h1 class="text-center"> <%= @user.first_name %> Booklist</h1>
-<% end %>
+  <% if  @user == current_user %>
+    <h1 class="text-center">Personal Booklist</h1>
+  <% else %>
+    <h1 class="text-center"> <%= @user.first_name %> Booklist</h1>
+  <% end %>
 
-<% if ! @books.empty? %>
-<div class="row">
-  <% @books.each do |book| %>
-    <div class="col-4 mb-3">
-      <div class="card text-center" style="width: 18rem;">
-        <img class="card-img-top">
-        <div class="card-body">
+  <% if ! @books.empty? %>
+    <div class="row">
+      <% @books.each do |book| %>
+        <div class="col-4 mb-3">
+          <div class="card text-center" style="width: 18rem;">
+            <img class="card-img-top">
+            <div class="card-body">
 
-          <%= link_to(book.book) do %>
-            <h5 class="card-title"><%= book.book.title %></h5>
-          <% end %>
-          <p class="card-text">written by <%= book.book.author.first_name %> <%= book.book.author.last_name %></p>
-          <% if ! book.status.nil?%>
-            <p class="card-text"> Status: <b><%= BookUser.pretty_name(book.status) %></b> </p>
-          <% else %>
-            <p class="card-text"> No status yet </p>
-          <% end %>
-          <p class="card-text"> Added on <%= book.created_at.strftime("%B %d, %Y") %></p>
-          <p class="card-text"> Last update <%= book.updated_at.strftime("%B %d, %Y") %></p>
+              <%= link_to(book.book) do %>
+                <h5 class="card-title"><%= book.book.title %></h5>
+              <% end %>
+              <p class="card-text">written by <%= book.book.author.first_name %> <%= book.book.author.last_name %></p>
+              <% if ! book.status.nil?%>
+                <p class="card-text"> Status: <b class="status"><%= BookUser.pretty_name(book.status) %></b> </p>
+              <% else %>
+                <p class="card-text"> No status yet </p>
+              <% end %>
+              <p class="card-text"> Added on <%= book.created_at.strftime("%B %d, %Y") %></p>
+              <p class="card-text"> Last update <%= book.updated_at.strftime("%B %d, %Y") %></p>
 
 
-          <% if current_user == book.user%>
-          <p class="card-text"> Change it to: </p>
-          <form class="" action="/booklist/update_status" method="post">
-              <%= csrf_meta_tags %>
-              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-              <select class="" name="status_id">
-                <% @statuses.each do |s| %>
-                  <% if book.status != s.first %>
-                    <option value="<%= s.first %>">
-                      <%= s.first %>
-                    </option>
-                  <% end %>
-                <% end %>
-              </select>
-              <input type="hidden" name="id" value="<%= book.book.id %>">
-              <button class="btn btn-warning" type="submit" >
-                <i class="material-icons">update</i>
-              </button>
-          </form
-          <br>
-          <% end %>
-
+              <% if current_user == book.user%>
+                <p class="card-text"> Change it to: </p>
+                <form class="" action="/booklist/update_status" method="post">
+                    <%= csrf_meta_tags %>
+                    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                    <select class="" name="status_id">
+                      <% @statuses.each do |s| %>
+                        <% if book.status != s.first %>
+                          <option value="<%= s.first %>">
+                            <%= s.first %>
+                          </option>
+                        <% end %>
+                      <% end %>
+                    </select>
+                    <input type="hidden" name="id" value="<%= book.book.id %>">
+                    <button class="btn btn-warning" type="submit" >
+                      <i class="material-icons">update</i>
+                    </button>
+                </form
+                <br>
+              <% end %>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
+  </div>
+  <% else %>
+    No books on Booklist
   <% end %>
-</div>
-<% else %>
-  No books on Booklist
-<% end %>
 
 <div class="text-center">
   <%= paginate @books %>

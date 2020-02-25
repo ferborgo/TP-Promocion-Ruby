@@ -28,5 +28,7 @@
   <% end %>
 </ul>
 
-<%= link_to 'Edit', edit_author_path(@author) %> |
+<% if can? :edit, @author  %>
+  <%= link_to 'Edit', edit_author_path(@author) %> |
+<% end %>
 <%= link_to 'Back', authors_path %>

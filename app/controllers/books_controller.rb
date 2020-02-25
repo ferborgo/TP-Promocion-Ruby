@@ -1,6 +1,12 @@
 class BooksController < ApplicationController
   before_action :set_book, only: [:show, :edit, :update, :destroy]
   helper_method :has_commented?
+  before_action :authenticate_user!
+
+  # CanCanCan
+  load_and_authorize_resource
+  skip_authorize_resource :only => :search
+
   # GET /books
   # GET /books.json
   def index
@@ -76,7 +82,9 @@ class BooksController < ApplicationController
   def search
     query = params[:search_books].presence && params[:search_books][:query]
     if query
-      @books = Book.search(query)
+      @books = Book.search(query).page params[:page]
+    else
+      @books = Book.all.order(:title).page params[:page]
     end
   end
 

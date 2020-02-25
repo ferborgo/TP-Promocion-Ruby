@@ -1,6 +1,7 @@
 class ProfileController < ApplicationController
   before_action :set_user, only: [:show]
   before_action :authenticate_user!
+  
   def index
     email = params[:email]
     @users = User.where(is_public: true).where("email LIKE :q", q:"%#{email}%")

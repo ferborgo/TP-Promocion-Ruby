@@ -3,6 +3,7 @@ require 'elasticsearch/model'
 class Book < ApplicationRecord
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+  paginates_per 10
 
   settings do
     mappings dynamic: false do
@@ -38,4 +39,4 @@ class Book < ApplicationRecord
   has_many :opinions
   belongs_to :genre
 end
-Book.import()
+Book.import(force: true)

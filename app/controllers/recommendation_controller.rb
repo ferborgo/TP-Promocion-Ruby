@@ -1,5 +1,6 @@
 class RecommendationController < ApplicationController
-
+  before_action :authenticate_user!
+  
   def create
     @recommendation = Recommendation.new
     @recommendation.book = Book.find(params[:book_id])
@@ -8,7 +9,7 @@ class RecommendationController < ApplicationController
       @recommendation.text = params[:text]
     end
     @recommendation.save
-    
+
     redirect_to book_path(params[:book_id])
   end
 

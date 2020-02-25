@@ -17,3 +17,15 @@
 .recommendationButton {
   cursor: pointer;
 }
+
+.opinion-text {
+  max-width: 80%;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  .search-input {
+    width: 50%;
+  }
+}

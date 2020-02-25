@@ -20,7 +20,11 @@
     <%= form.label :author %>
     <%= form.select :author_id do %>
       <% @authors.each do |author|%>
-        <option value="<%= author.id %>"> <%= author.last_name %></option>
+        <% if ! book.author.nil? and book.author.id == author.id %>
+          <option selected value="<%= author.id %>"> <%= author.last_name %></option>
+        <% else %>
+          <option value="<%= author.id %>"> <%= author.last_name %></option>
+        <% end %>
       <% end %>
     <% end %>
   </div>
@@ -29,7 +33,14 @@
     <%= form.label :genre %>
     <%= form.select :genre_id do %>
       <% @genres.each do |genre|%>
+
+      <% if ! book.genre.nil? and book.genre.id == genre.id %>
+        <option selected value="<%= genre.id %>"> <%= genre.name %></option>
+      <% else %>
         <option value="<%= genre.id %>"> <%= genre.name %></option>
+      <% end %>
+
+
       <% end %>
     <% end %>
   </div>
@@ -38,7 +49,11 @@
     <%= form.label :published_at %>
     <%= form.select :published_at do  %>
       <% for i in 1900..2020 %>
-        <option value="<%= i %>"> <%= i %> </option>
+        <% if book.published_at == i %>
+          <option selected value="<%= i %>"> <%= i %> </option>
+        <% else %>
+          <option value="<%= i %>"> <%= i %> </option>
+        <% end %>
       <% end %>
     <% end %>
   </div>
@@ -47,3 +62,9 @@
     <%= form.submit %>
   </div>
 <% end %>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#book_author_id').select2();
+    $('#book_genre_id').select2();
+  });
+</script>

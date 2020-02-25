@@ -31,10 +31,11 @@
               Admin Settings
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <%= link_to('Authors', main_app.new_author_path) %>
+              <%= link_to('Authors', main_app.authors_path, class: "dropdown-item") %>
               <br>
-              <%= link_to('Books', main_app.new_book_path) %>
-              <a class="dropdown-item" href="#">Users</a>
+              <%= link_to('Books', main_app.new_book_path, class: "dropdown-item") %>
+              <br>
+              <%= link_to('Genres', main_app.genres_path, class: "dropdown-item") %>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Other Config</a>
             </div>
@@ -42,11 +43,17 @@
           <% end %>
 
           <li class="nav-item">
-              <%= link_to('Search', main_app.authors_path, class: "nav-link") %>
+            <%= link_to('Booklist', main_app.booklist_path(current_user.id), class: 'nav-link') %>
           </li>
 
           <li class="nav-item">
-            <%= link_to('Booklist', main_app.booklist_path(current_user.id), class: 'nav-link') %>
+              <%= link_to 'Books', main_app.search_books_path, class: 'nav-link' %>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to(notifications_path, local:true, class: 'nav-link') do %>
+              Notifications  <span class="badge badge-danger"><%= Notification.unread_count(current_user) %> </span>
+            <% end %>
           </li>
 
           <li class="nav-item dropdown">
@@ -58,16 +65,6 @@
               <div class="dropdown-divider"></div>
               <%= link_to('Logout', main_app.destroy_user_session_path, method: :delete, class: "dropdown-item") %>
             </div>
-          </li>
-
-          <li class="nav-item">
-            <%= link_to(notifications_path, local:true, class: 'nav-link') do %>
-              Notifications  <span class="badge badge-danger"><%= Notification.unread_count(current_user) %> </span>
-            <% end %>
-          </li>
-
-          <li class="nav-item">
-              <%= link_to 'Books', main_app.search_books_path, class: 'nav-link' %>
           </li>
 
           <li class="nav-item">
@@ -97,7 +94,7 @@
 
       <!-- Optional JavaScript -->
       <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
   </body>

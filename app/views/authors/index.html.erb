@@ -1,8 +1,9 @@
+<% if current_user.is_admin %>
 <p id="notice"><%= notice %></p>
 <h2 class="text-center">Authors</h2>
 <hr>
 
-<% if can? :create, @author %>
+<% if can? :create, Author %>
 <button class="btn btn-success">
     <%= link_to 'New Author', new_author_path %>
 </button>
@@ -53,3 +54,7 @@
 </div>
 
 <br>
+
+<% else %>
+  <h2 class="text-center"> Only admin users can access this page </h2>
+<% end %>
