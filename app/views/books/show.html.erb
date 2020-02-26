@@ -62,9 +62,19 @@
         <div class="opinion-header">
           <div class="opinion-text">
             <% if ! opinion.text.empty? %>
-              <i> '<%= opinion.text %>', by <b><%= opinion.user.email %></b></i>
+              <i> '<%= opinion.text %>', by
+                <% if opinion.user.username.nil? %>
+                  <b><%= opinion.user.email %></b>
+                <% else %>
+                  <b><%= opinion.user.username %></b>
+                <% end %>
+              </i>
             <% else %>
-              <i> <b><%= opinion.user.email %></b></i>
+              <% if opinion.user.username.nil? %>
+                <b><%= opinion.user.email %></b>
+              <% else %>
+                <b><%= opinion.user.username %></b>
+              <% end %>
             <% end %>
           </div>
           <div class="opinion-stars">

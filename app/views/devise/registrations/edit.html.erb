@@ -20,6 +20,11 @@
     </div>
 
     <div class="field">
+      <%= f.label :username %><br />
+      <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
+    </div>
+
+    <div class="field">
       <label for="is_public">Public or private profile</label>
       <br>
       <%= f.select :is_public, Public: true, Private: false %>

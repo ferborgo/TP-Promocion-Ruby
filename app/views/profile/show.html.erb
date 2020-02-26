@@ -1,46 +1,48 @@
 <% if @user.is_public || @user === current_user %>
-<h1> <%= @user.first_name %> <%= @user.last_name %> </h1>
-<% if current_user === @user %>
-  <h4>Personal Profile</h4>
+  <span class="title">
+    <h1> <%= @user.first_name %> <%= @user.last_name %> </h1>
+    <h3> <em>(<%= @user.username %>)</em> </h3>
+  </span>
+  <% if current_user === @user %>
+    <h4>Personal Profile</h4>
 
-  <p> Joined on <%= @user.created_at.strftime("%B, %Y") %> </p>
+    <p> Joined on <%= @user.created_at.strftime("%B, %Y") %> </p>
 
-  <% if(current_user.is_public) %>
-    <span class="badge badge-secondary"> PUBLIC </span>
+    <% if(current_user.is_public) %>
+      <span class="badge badge-secondary"> PUBLIC </span>
+    <% else %>
+      <span class="badge badge-secondary"> PRIVATE </span>
+    <% end %>
+    <br><br>
+
+    <button class="btn btn-warning">
+      <%= link_to('Edit Profile', edit_user_registration_path) %>
+    </button>
+
   <% else %>
-    <span class="badge badge-secondary"> PRIVATE </span>
-  <% end %>
-  <br><br>
+    <% if @user.following?(current_user) %>
+      <h4>
+        <span class="badge badge-secondary">
+        This user is following you
+        </span>
+      </h4>
+    <% end %>
 
-  <button class="btn btn-warning">
-    <%= link_to('Edit Profile', edit_user_registration_path) %>
-  </button>
-
-<% else %>
-  <% if @user.following?(current_user) %>
     <h4>
-      <span class="badge badge-secondary">
-      This user is following you
+      <% if current_user.following?(@user) %>
+          <span class="badge badge-danger">
+        <%= link_to('unfollow', unfollow_path(@user.id)) %>
+      <% else %>
+          <span class="badge badge-success">
+        <%= link_to('follow', follow_path(@user.id)) %>
+      <% end %>
       </span>
     </h4>
+    <p> Joined on <%= @user.created_at.strftime("%B, %Y") %> </p>
+
+    <%= link_to('Booklist', booklist_path(@user.id)) %>
+
   <% end %>
-
-  <h4>
-    <% if current_user.following?(@user) %>
-        <span class="badge badge-danger">
-      <%= link_to('unfollow', unfollow_path(@user.id)) %>
-    <% else %>
-        <span class="badge badge-success">
-      <%= link_to('follow', follow_path(@user.id)) %>
-    <% end %>
-    </span>
-  </h4>
-
-  <p> Joined on <%= @user.created_at.strftime("%B, %Y") %> </p>
-
-  <%= link_to('Booklist', booklist_path(@user.id)) %>
-
-<% end %>
 
 <br>
 <% if ! @user.opinions.empty? %>
