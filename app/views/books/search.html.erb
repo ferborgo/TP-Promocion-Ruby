@@ -49,10 +49,19 @@
             </td>
             <td> <%= book.pages ||= 'sin definir' %> </td>
             <td>
-              <% if (current_user.books.include?(book)) %>
-                <%= link_to 'Remove', remove_book_to_booklist_path(book) %>
+
+              <% if params[:search_books].nil? %>
+                <% if (current_user.books.include?(book)) %>
+                  <%= link_to 'Remove', remove_book_to_booklist_path(book.id) %>
+                <% else %>
+                  <%= link_to 'Add', add_book_to_booklist_path(book.id) %>
+                <% end %>
               <% else %>
-                <%= link_to 'Add', add_book_to_booklist_path(book) %>
+                <% if (current_user.books.include?(Book.find(book.id))) %>
+                  <%= link_to 'Remove', remove_book_to_booklist_path(book.id) %>
+                <% else %>
+                  <%= link_to 'Add', add_book_to_booklist_path(book.id) %>
+                <% end %>
               <% end %>
             </td>
           </tr>

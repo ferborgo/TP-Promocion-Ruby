@@ -5,6 +5,10 @@ class Book < ApplicationRecord
   include Elasticsearch::Model::Callbacks
   paginates_per 10
 
+  validates :title, :author, presence: true
+  validates_associated :genre, :author
+  validates :pages, numericality: { only_integer: true }
+  
   settings do
     mappings dynamic: false do
       indexes :author, type: :object do

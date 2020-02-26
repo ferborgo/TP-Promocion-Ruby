@@ -1,14 +1,21 @@
 <p id="notice"><%= notice %></p>
 <%= link_to 'Back', :back %>
 <h1><%= @book.title %></h1>
-<h2>By <%= @book.author.first_name %> <%= @book.author.last_name %></h2>
+<h2>By
+  <%= link_to(author_path(@book.author)) do  %>
+    <%= @book.author.first_name %> <%= @book.author.last_name %>
+  <% end %>
+</h2>
 
 <%  if @book.genre %>
 <h5> <%= @book.genre.name %> </h5>
 <% else %>
 <h5> Genre not defined</h5>
 <% end %>
-
+<% if can? :edit, Book %>
+  <%= link_to 'Edit', edit_book_path(@book) %>
+<% end %>
+<br>
 <% if (current_user.books.include?(@book)) %>
   <%= link_to 'Remove from Booklist', remove_book_to_booklist_path(@book) %>
 <% else %>
@@ -44,10 +51,7 @@
 
 <br>
 <%= @book.pages %> pages
-<br><br>
-<% if can? :edit, Book %>
-  <%= link_to 'Edit', edit_book_path(@book) %>
-<% end %>
+<br>
 <h3>Opinions:</h3>
 <% if @book.opinions.count == 0 %>
   <p>Sorry! There are no opinions.. at least for now! Please tell us what you think about this book.</p>
@@ -57,7 +61,11 @@
       <li class="list-group-item">
         <div class="opinion-header">
           <div class="opinion-text">
-            <i> '<%= opinion.text %>', by <b><%= opinion.user.email %></b></i>
+            <% if ! opinion.text.empty? %>
+              <i> '<%= opinion.text %>', by <b><%= opinion.user.email %></b></i>
+            <% else %>
+              <i> <b><%= opinion.user.email %></b></i>
+            <% end %>
           </div>
           <div class="opinion-stars">
             <% for i in 1..opinion.stars do %>

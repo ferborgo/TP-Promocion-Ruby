@@ -2,6 +2,9 @@ class Recommendation < ApplicationRecord
   belongs_to :user
   belongs_to :book
 
+  validates :user, :book, presence: true
+  validates_associated :book, :user
+
   paginates_per 3
 
   after_create :create_notification
