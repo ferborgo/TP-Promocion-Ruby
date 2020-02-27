@@ -1,7 +1,9 @@
 <% if @user.is_public || @user === current_user %>
   <span class="title">
     <h1> <%= @user.first_name %> <%= @user.last_name %> </h1>
-    <h3> <em>(<%= @user.username %>)</em> </h3>
+    <% if ! @user.username.nil? %>
+      <h3> <em>(<%= @user.username %>)</em> </h3>
+    <% end %>
   </span>
   <% if current_user === @user %>
     <h4>Personal Profile</h4>
