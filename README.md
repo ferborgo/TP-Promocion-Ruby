@@ -21,7 +21,9 @@ El sistema consiste en una red social para lectores, donde éstos pueden gestion
 - Para agregar datos a la base de datos correr `rails db:seed`. Este comando creará 8 libros, 5 autores y 5 géneros. Además, agregará dos usuarios: uno administrador y otro normal público.
 - Para crear el archivo de variables de entorno correr `bundle exec figaro install`. Para poder loguearse con Facebook hará falta agregar `FACEBOOK_CLIENT_ID` y `FACEBOOK_CLIENT_SECRET` en `config/application.yml`. Por cuestiones de seguridad, los valores de estas variables no están en el repositorio.
 - Para levantar el servidor correr `rails s`
-
+- Por defecto, el sistema se ejecutará en http://localhost:3000/
+- Para ingresar como administrador, usar el email 'admin@admin.com' y contraseña 'password'
+- Para ingresar como un usuario normal y público, usar el email 'example@gmail.com' y contraseña 'password'
 
 ## Fixes
 
