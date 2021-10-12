@@ -184,7 +184,8 @@ GEM
       omniauth (~> 1.9)
     orm_adapter (0.5.0)
     public_suffix (4.0.3)
-    puma (3.12.2)
+    puma (5.5.1)
+      nio4r (~> 2.0)
     rack (2.2.3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -295,7 +296,7 @@ DEPENDENCIES
   material_icons
   notifications (~> 0.6.0)
   omniauth-facebook
-  puma (~> 3.11)
+  puma (~> 5.5)
   rails (~> 5.2.4, >= 5.2.4.1)
   sass-rails (~> 5.0)
   select2-rails
